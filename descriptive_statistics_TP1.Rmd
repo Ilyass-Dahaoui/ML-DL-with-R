@@ -1,0 +1,71 @@
+
+```{r}
+# Données
+data <- c(43, 29, 57, 45, 50, 29, 37, 59, 46, 31, 46, 24, 33, 38, 49, 31, 
+          62, 60, 52, 38, 38, 26, 41, 52, 60, 49, 52, 41, 38, 26, 37, 59,
+          57, 41, 29, 33, 33, 43, 46, 57, 46, 33, 46, 49, 57, 57, 46, 43); data
+```
+
+```{r}
+# Calcul des effectifs
+effectifs <- as.data.frame(table(data))
+colnames(effectifs) <- c("Valeurs", "Effectifs") 
+effectifs
+```
+
+
+
+
+```{r}
+# Calcul des fréquences
+effectifs$Frequences = effectifs$Effectifs / sum(effectifs$Effectifs)
+print(effectifs$Frequences)
+```
+
+
+```{r}
+# Calcul des effectifs cumulés
+effectifs$Effectifs_cumules <- cumsum(effectifs$Effectifs)
+print(effectifs$Effectifs_cumules)
+```
+
+
+```{r}
+# Calcul des fréquences cumulées
+effectifs$Frequences_cumulees <- cumsum(effectifs$Frequences)
+print(effectifs$Frequences_cumulees)
+```
+
+
+```{r}
+# Affichage des données
+print(effectifs)
+```
+
+
+```{r}
+# Diagramme en bâtons
+barplot(effectifs$Effectifs, names.arg = effectifs$Valeurs, main = "Diagramme en bâtons", 
+        xlab = "Valeurs", ylab = "Effectifs", col = "blue")
+```
+
+
+```{r}
+# Diagramme cumulatif
+plot(effectifs$Valeurs, effectifs$Effectifs_cumules, type = "s", 
+     main = "Diagramme cumulatif", xlab = "Valeurs", ylab = "Effectifs cumulés")
+```
+
+
+```{r}
+# Calcul et affichage de la médiane
+mediane <- median(data)
+print(paste("Médiane:", mediane))# Calcul et affichage de la variance et de l'écart-type
+variance <- var(data)
+ecart_type <- sd(data)
+
+print(paste("Variance:", variance))
+print(paste("Écart-type:", ecart_type))
+# Calcul des quartiles
+quartiles <- quantile(data, probs = c(0.25, 0.5, 0.75));quartiles
+```
