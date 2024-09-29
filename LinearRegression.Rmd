@@ -1,0 +1,56 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r}
+vitesse = c(4, 7, 8, 9, 10, 11, 11, 12, 12, 13, 14, 15, 15, 16, 17, 18, 19, 20, 24, 25)
+distance = c(2,4,16, 10, 26,17, 28, 20, 28, 26, 36, 26, 54, 40, 50, 76, 46, 48, 92, 85)
+```
+
+```{r}
+moyenne_vitesse = mean(vitesse) 
+moyenne_distance =mean(distance)
+
+cat("Moyenne des vitesses:", moyenne_vitesse, "\n")
+cat("Moyenne des distances:", moyenne_distance, "\n")
+```
+```{r}
+variance_vitesse = var(vitesse)
+variance_distance = var(distance)
+
+cat("Variance des vitesses:", variance_vitesse, "\n")
+cat("Variance des distances:", variance_distance, "\n")
+```
+```{r}
+modele_Dv = lm(distance ~ vitesse)
+
+a = coef(modele_Dv)[2]
+b = coef(modele_Dv)[1]
+
+cat("Droite de régression (Distance = a * Vitesse + b):", "a =", a, "b =", b, "\n")
+```
+
+```{r}
+modele_Vd = lm(vitesse ~ distance)
+c = coef(modele_Vd)[2]
+d = coef(modele_Vd)[1]
+
+cat("Droite de régression (Vitesse = c * Distance + d):", "c =", c, "d =", d, "\n")
+```
+```{r}
+theta_rad <- atan(abs(a - c) / (1 + a * c))
+theta_deg <- theta_rad * 180 / pi
+cat("Angle entre les deux droites:", theta_deg, "degrés\n")
+```
+
+```{r}
+plot(vitesse, distance, main="Régression de la distance et de la vitesse",
+     xlab="Vitesse (mph)", ylab="Distance (ft)", pch=19)
+abline(modele_Dv, col="blue", lwd=2)  
+abline(modele_Vd, col="red", lwd=2) 
+legend("topleft", legend=c("Distance = f(Vitesse)", "Vitesse = f(Distance)"),
+       col=c("blue", "red"), lwd=2)
+```
