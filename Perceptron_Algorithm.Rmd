@@ -1,0 +1,40 @@
+
+
+```{r}
+# Réseau de neurones
+# Développement de l’algorithme Perceptron en R (version améliorée)
+
+
+activation <- function(z) {
+  return(ifelse(z >= 0, 1, 0))  
+}
+
+predire <- function(X, w) {
+  z <- X %*% w  
+  return(activation(z)) 
+}
+
+perceptron <- function(S, eta, nb_iter) {
+  n <- ncol(S) - 1  
+  X <- cbind(1, S[, 1:n])  
+  d <- S[, n + 1] 
+  w <- runif(n + 1, min = -0.5, max = 0.5)  
+  
+  for (iteration in 1:nb_iter) {
+    o <- predire(X, w) 
+    erreur <- d - o  
+    erreur_totale <- sum(abs(erreur))  
+    
+    w <- w + eta * t(X) %*% erreur  
+    
+    if (erreur_totale == 0) {
+      cat("Convergence atteinte après", iteration, "itérations.\n")
+      break
+    }
+  }
+  
+  return(w)
+}
+
+```
+
