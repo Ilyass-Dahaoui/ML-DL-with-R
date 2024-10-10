@@ -1,0 +1,62 @@
+
+
+```{r}
+install.packages("rpart.plot")
+install.packages("rpart")
+library(rpart)
+library(rpart.plot)
+```
+
+
+```{r}
+data = data.frame(
+  Meteo = c("soleil", "soleil", "soleil", "soleil", "nuages", "nuages", "nuages", "nuages", "soleil"),
+  Amis = c("présents", "absents", "présents", "absents", "absents", "présents", "absents", "présents", "absents"),
+  Vent = c("faible", "fort", "fort", "faible", "faible", "fort", "fort", "faible", "faible"),
+  Jour = c("week-end", "semaine", "semaine", "semaine", "week-end", "week-end", "semaine", "week-end", "week-end"),
+  Decision = c("oui", "non", "non", "oui", "non", "non", "non", "oui", "non")
+)
+data
+```
+
+
+```{r}
+arb = rpart(Decision ~ Meteo + Amis + Vent + Jour, data = data, method = "class",control =rpart.control(minsplit =1,minbucket=1, cp=0))
+
+rpart.plot(arb)
+arbre_1 = rpart.rules(arb) 
+print(arbre_1)
+```
+Pruning:
+
+
+
+
+```{r}
+data2 = data.frame(
+  Meteo = c("soleil", "nuages", "soleil", "soleil", "nuages"),
+  Amis = c("présents", "absents", "absents", "absents", "présents"),
+  Vent = c("fort", "faible", "faible", "faible", "faible"),
+  Jour = c("week-end", "semaine", "week-end", "semaine", "semaine"),
+  Decision = c("non", "non", "oui", "non", "oui")
+)
+
+```
+
+```{r}
+arb_2 = rpart(Decision ~ Meteo + Amis + Vent + Jour, data = data2, method = "class",control =rpart.control(minsplit =1,minbucket=1, cp=0))
+
+```
+
+
+```{r}
+printcp(arb_2) 
+```
+```{r}
+arbre_elague = prune(arb_2, cp = 0.33)  
+```
+
+```{r}
+rpart.plot(arbre_elague) 
+```
+
